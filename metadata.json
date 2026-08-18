@@ -1,0 +1,20 @@
+{
+    "KPackageStructure": "Plasma/Applet",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "ishevchenko"
+            }
+        ],
+        "Category": "System Information",
+        "Description": "Display z.ai GLM Coding Plan usage in your taskbar. Shows weekly and 5-hour quota usage with color-coded indicators.",
+        "EnabledByDefault": true,
+        "Icon": "zai-usage-widget",
+        "Id": "org.kde.plasma.zaiusage",
+        "License": "GPL-3.0-or-later",
+        "Name": "Z.ai Usage",
+        "Version": "1.0.0"
+    },
+    "X-Plasma-API-Minimum-Version": "6.0",
+    "X-Plasma-Provides": []
+}

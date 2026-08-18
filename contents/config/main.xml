@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+      http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
+    <kcfgfile name=""/>
+
+    <group name="General">
+        <entry name="refreshInterval" type="Int">
+            <label>Refresh interval in minutes</label>
+            <default>5</default>
+        </entry>
+        <entry name="showIcon" type="Bool">
+            <label>Show Z.ai icon in panel</label>
+            <default>true</default>
+        </entry>
+        <entry name="backgroundOpacity" type="Double">
+            <label>Background opacity (0.0 = transparent, 1.0 = opaque)</label>
+            <default>1.0</default>
+        </entry>
+    </group>
+</kcfg>
