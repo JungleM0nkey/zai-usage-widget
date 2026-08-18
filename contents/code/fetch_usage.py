@@ -16,18 +16,20 @@ TIMEOUT = 15
 
 
 def get_api_key():
+    # 1. opencode auth.json (z.ai coding plan login)
     try:
         with open(AUTH_FILE) as f:
             auth = json.load(f)
     except (OSError, ValueError):
-        return None
+        auth = {}
     for provider in ("zai-coding-plan", "zai"):
         entry = auth.get(provider)
         if isinstance(entry, dict) and isinstance(entry.get("key"), str):
             return entry["key"]
         if isinstance(entry, str):
             return entry
-    return None
+    # 2. ZAI_API_KEY in the environment
+    return os.environ.get("ZAI_API_KEY")
 
 
 def fmt_num(n):

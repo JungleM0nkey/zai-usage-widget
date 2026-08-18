@@ -1,41 +1,29 @@
-# zai-usage-widget
+# Plasma Z.ai Usage
 
-KDE Plasma 6 panel widget showing **z.ai GLM Coding Plan** quota usage — weekly
-and 5-hour percentages, plan badge (e.g. `GLM Max`), credits remaining, and
-reset countdowns. Color-coded like its siblings: `claudeusage`, `codexusage`,
-`syntheticusage`.
+A Plasma 6 panel widget for z.ai GLM Coding Plan quotas. It shows weekly and 5-hour usage with reset times.
 
-Sister widget docs: `~/.local/share/plasma/plasmoids/USAGE-WIDGETS-HANDOFF.md`.
+<img src="docs/widget-preview.png" alt="Z.ai Usage widget showing current quota usage" width="400">
 
-## How it works
+## Requirements
 
-- `contents/code/fetch_usage.py` — reads the API key from
-  `~/.local/share/opencode/auth.json` (`zai-coding-plan` or `zai` entry),
-  GETs `https://api.z.ai/api/monitor/usage/quota/limit` with the **raw key**
-  in `Authorization` (no Bearer prefix).
-- Response: `{code,msg,data}` envelope → `data.limits[]`:
-  - `unit:3` = 5h quota, `unit:6` = weekly quota
-  - `type`: `CREDIT_LIMIT` (GLM Max) or `TOKENS_LIMIT` (token plans) — both handled
-  - `percentage` = % used, `usage` = allowance, `remaining` = left,
-    `nextResetTime` = ms epoch
-- The script emits preformatted display strings + percentages; `main.qml`
-  (cloned from `syntheticusage`) just displays them.
-- Cache: `~/.local/share/zai-usage-cache.json` (survives restarts, marks stale).
+- KDE Plasma 6
+- Python 3 and a z.ai GLM Coding Plan API key
+
+The widget picks up the key automatically if you are signed in to the Z.AI Coding
+Plan in OpenCode (`~/.local/share/opencode/auth.json`). Alternatively set
+`ZAI_API_KEY` in your environment profile.
 
 ## Install
 
 ```bash
-ln -s ~/zai-usage-widget ~/.local/share/plasma/plasmoids/org.kde.plasma.zaiusage
-# then restart plasmashell and add "Z.ai Usage" to a panel, or via qdbus:
-qdbus6 org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell.evaluateScript \
-  'panels()[0].addWidget("org.kde.plasma.zaiusage")'
+git clone https://github.com/JungleM0nkey/zai-usage-widget.git
+cd zai-usage-widget
+kpackagetool6 --type Plasma/Applet --install .
 ```
 
-## Gotchas
+Open **Add Widgets** and add **Z.ai Usage** to a panel.
 
-- **Never run `kpackagetool6 -u` on this** — the upgrade path deleted the
-  package dir once. The symlinked dir is discovered by plasmashell at startup.
-- The API is undocumented (reverse-engineered from `opencode-glm-quota` and
-  live responses); if quotas go blank, dump the raw response first.
-- Config: refresh interval (min 1, default 5 min), show-icon, background
-  opacity — same as the other usage widgets.
+The widget asks `api.z.ai/api/monitor/usage/quota/limit` for the quota state
+(weekly `unit:6`, 5-hour `unit:3`; credit- and token-based plans both supported).
+
+License: GPL-3.0-or-later.
